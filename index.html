@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sivakasi Sparks – Diwali Crackers</title>
+<link href="https://fonts.googleapis.com/css2?family=Yeseva+One&family=Mukta:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#2a1650;--mute:#6b5a85;--line:#eadff0;--tint:#fff6e0;--gold:#ffc21a;--mag:#c2185b}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:#fff;color:var(--ink);font:17px/1.6 Mukta,sans-serif}
+h1,h2,h3{font-family:'Yeseva One',serif;font-weight:400;margin:0}a{color:var(--mag)}button,input,textarea,select{font:inherit}
+:focus-visible{outline:3px solid var(--mag);outline-offset:2px}
+.warn{background:#fff3cd;color:#5a3b00;padding:12px 5vw;text-align:center;font-weight:600;border-bottom:2px solid #ffc21a}
+header{display:flex;justify-content:space-between;align-items:center;padding:12px 5vw;position:sticky;top:0;background:#fffffff2;backdrop-filter:blur(10px);z-index:5;border-bottom:1px solid var(--line)}
+.logo{font:24px 'Yeseva One';color:var(--mag);display:flex;align-items:center;gap:10px}.logo svg{width:30px;height:30px}
+nav{display:flex;gap:10px;align-items:center;flex-wrap:wrap}nav span{color:var(--mute)}
+.btn{background:var(--gold);color:var(--ink);border:0;padding:10px 20px;border-radius:999px;font-weight:700;cursor:pointer;text-decoration:none;display:inline-block;transition:transform .15s,box-shadow .15s}
+.btn:hover{transform:translateY(-1px);box-shadow:0 6px 16px #ffc21a77}
+.btn.ghost{background:#fff;color:var(--ink);border:1px solid #d9cbe8;box-shadow:none}.btn.red{background:var(--mag);color:#fff}.btn:disabled{opacity:.5;cursor:not-allowed;transform:none;box-shadow:none}
+.hero{position:relative;min-height:66vh;display:grid;place-items:center;text-align:center;padding:70px 5vw;overflow:hidden;background:linear-gradient(135deg,#fff1b8 0%,#ffd88a 50%,#ffb7a0 100%)}
+#fx{position:absolute;inset:0;width:100%;height:100%}.hero div{position:relative;pointer-events:none}
+.hero h1{font-size:clamp(46px,9vw,112px);line-height:1;color:var(--ink)}
+.hero p{max-width:36ch;margin:20px auto 28px;color:#4a3a66;font-size:19px}.hero .btn{pointer-events:auto;font-size:18px;padding:13px 32px;background:var(--mag);color:#fff}
+main{padding:34px 5vw 10px;max-width:1280px;margin:auto}
+.trust{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px;margin:0 0 42px}
+.trust div{border:1px solid var(--line);border-radius:16px;padding:14px 18px;background:#fff;box-shadow:0 2px 10px #2a165010}.trust b{display:block;color:var(--mag)}.trust span{color:var(--mute);font-size:15px}
+.head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:14px}.head h2{font-size:clamp(30px,4vw,44px)}.head span{color:var(--mute)}
+.bar{display:flex;gap:10px;flex-wrap:wrap;margin:0 0 26px;align-items:center}.bar input{flex:1;min-width:220px;margin:0}
+.chip{padding:7px 18px;border-radius:999px;border:1px solid #d9cbe8;background:#fff;color:var(--ink);cursor:pointer;margin:2px}.chip:hover{border-color:var(--mag)}.chip.on{background:var(--ink);color:#fff;border-color:var(--ink);font-weight:700}
+input,textarea,select{width:100%;padding:11px 15px;border-radius:12px;border:1px solid #d9cbe8;background:#fff;color:var(--ink);margin-bottom:10px}select{width:auto;margin:0}
+input.num{width:110px;margin:0;padding:7px 10px}input[type=checkbox]{width:22px;height:22px;margin:0}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:24px}
+.card{background:#fff;border:1px solid var(--line);border-radius:20px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 2px 10px #2a165010;transition:transform .2s,box-shadow .2s}
+.card:hover{transform:translateY(-4px);box-shadow:0 14px 30px #2a165024}
+.pic{position:relative;overflow:hidden;background:var(--tint)}.pic img,.ph{width:100%;aspect-ratio:4/3;object-fit:cover;display:block;transition:transform .4s}.card:hover .pic img{transform:scale(1.05)}.ph{display:grid;place-items:center;font-size:50px}
+.tag{position:absolute;top:12px;left:12px;background:#fff;border:1px solid var(--line);padding:2px 13px;border-radius:999px;font-size:14px}
+.sold{position:absolute;inset:0;background:#fffc;display:grid;place-items:center;font:26px 'Yeseva One';color:var(--ink)}
+.card .in{padding:16px 18px 18px;display:flex;flex-direction:column;gap:8px;flex:1}.card h3{font-size:20px;line-height:1.3}
+.card p{margin:0;color:var(--mute);font-size:15px;flex:1;line-height:1.5}
+.price{font-size:25px;font-weight:700;color:var(--mag)}.low{color:#c62828;font-size:14px;font-weight:600}.card .btn{width:100%;text-align:center}
+.row{display:flex;justify-content:space-between;align-items:center;gap:10px}
+dialog{background:#fff;color:var(--ink);border:0;border-radius:22px;padding:26px;width:min(480px,92vw);box-shadow:0 20px 60px #2a165055}dialog::backdrop{background:#2a165088}
+#shade{position:fixed;inset:0;background:#2a165077;z-index:8;display:none}#cart.open+#shade{display:block}
+#cart{position:fixed;right:0;top:0;height:100%;width:min(430px,100%);background:#fff;padding:24px;transform:translateX(105%);transition:.3s;z-index:9;overflow:auto;display:flex;flex-direction:column;gap:10px;box-shadow:-10px 0 40px #2a165033}
+#cart.open{transform:none}.ci{display:flex;gap:10px;justify-content:space-between;align-items:center;border-bottom:1px solid var(--line);padding:10px 0}
+.qty{display:flex;align-items:center;gap:8px}.qty button{width:30px;height:30px;border-radius:50%;border:1px solid #d9cbe8;background:#fff;color:inherit;cursor:pointer}
+.toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);background:var(--ink);color:#fff;padding:11px 24px;border-radius:999px;z-index:20;font-weight:700;box-shadow:0 8px 30px #2a165066}
+table{width:100%;border-collapse:collapse;font-size:15px}td,th{padding:9px 8px;border-bottom:1px solid var(--line);text-align:left}
+.admin{display:grid;grid-template-columns:minmax(260px,340px) 1fr;gap:30px}@media(max-width:800px){.admin{grid-template-columns:1fr}}
+.tabs{display:flex;gap:8px;margin-bottom:22px;flex-wrap:wrap}.hide{display:none!important}
+footer{margin-top:70px;padding:44px 5vw 26px;background:var(--tint);border-top:1px solid var(--line)}
+.fgrid{max-width:1280px;margin:auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:30px}
+footer h3{color:var(--mag);font-size:21px;margin-bottom:8px}footer p{margin:4px 0;color:var(--mute)}.fnote{max-width:1280px;margin:18px auto 0;font-size:14px}
+@media(prefers-reduced-motion:reduce){#cart,.card,.pic img,.btn{transition:none}}
+</style></head><body>
+<header><span class="logo"><svg viewBox="0 0 32 32" fill="none" stroke="#ffb627" stroke-width="2.4" stroke-linecap="round"><path d="M16 3v7M16 22v7M3 16h7M22 16h7M7 7l5 5M20 20l5 5M25 7l-5 5M12 20l-5 5"/><circle cx="16" cy="16" r="2.5" fill="#e8285f" stroke="none"/></svg>Sivakasi Sparks</span>
+<nav id="nav"></nav></header>
+
+<section class="hero" id="hero"><canvas id="fx"></canvas>
+<div><h1>Light up<br>your Diwali</h1><p>Sparklers, rockets and flower pots from licensed makers. Pay online, delivered to your door.</p>
+<a class="btn" href="#shop" onclick="document.getElementById('shop').scrollIntoView({behavior:'smooth'})">Shop crackers</a></div></section>
+
+<main>
+<section id="shop"><div class="trust"><div><b>Pay securely</b><span>UPI, cards and net banking</span></div><div><b>Packed with care</b><span>Boxed safely for transport</span></div><div><b>Order updates</b><span>Email and SMS at every step</span></div><div><b>Invoice included</b><span>Download from My orders</span></div></div>
+<div class="head"><h2>Our crackers</h2><span id="count"></span></div><div class="bar"><input id="q" placeholder="Search crackers" aria-label="Search crackers"><span id="cats"></span></div>
+<div class="grid" id="grid"></div></section>
+<section id="adminView" class="hide"></section>
+</main>
+<footer id="foot"></footer>
+
+<aside id="cart" aria-label="Shopping cart"></aside><div id="shade" onclick="document.getElementById('cart').classList.remove('open')"></div>
+<dialog id="ordDlg"></dialog>
+<dialog id="editDlg"></dialog>
+<dialog id="authDlg"><h2 id="authTitle">Log in</h2><form id="authForm" style="margin-top:14px"></form></dialog>
+
+<script>
+const $=s=>document.querySelector(s), money=p=>'₹'+(p/100).toLocaleString('en-IN',{minimumFractionDigits:0,maximumFractionDigits:2});
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+let user=null, products=[], cart=JSON.parse(localStorage.getItem('cart')||'[]'), cat='All';
+async function api(url,opt={}){
+  const o={method:opt.method||'GET',headers:{'X-Requested-With':'diwali'}};
+  if(opt.body instanceof FormData)o.body=opt.body; else if(opt.body){o.body=JSON.stringify(opt.body);o.headers['Content-Type']='application/json'}
+  const r=await fetch(url,o), d=await r.json().catch(()=>({})); if(!r.ok)throw new Error(d.error||'Something went wrong'); return d}
+function toast(m){const t=document.createElement('div');t.className='toast';t.textContent=m;document.body.append(t);setTimeout(()=>t.remove(),2600)}
+
+// ---------- header ----------
+function renderNav(){
+  $('#nav').innerHTML=`${user?.role==='admin'?'<button class="btn ghost" onclick="toggleAdmin()">Admin panel</button>':''}${user?'<button class="btn ghost" onclick="myOrders()">My orders</button>':''}
+  ${user?`<span>Hi, ${esc(user.name)}</span><button class="btn ghost" onclick="logout()">Log out</button>`:'<button class="btn ghost" onclick="authDialog(\'login\')">Log in</button>'}
+  <button class="btn" onclick="$('#cart').classList.add('open');renderCart()">Cart (${cart.reduce((a,c)=>a+c.qty,0)})</button>`}
+async function logout(){await api('/api/logout',{method:'POST'});user=null;showShop();renderNav()}
+
+// ---------- shop ----------
+async function loadProducts(){products=await api('/api/products');renderShop()}
+function renderShop(){
+  const cats=['All',...new Set(products.map(p=>p.category))];
+  $('#cats').innerHTML=cats.map(c=>`<button class="chip ${c===cat?'on':''}" data-c="${esc(c)}">${esc(c)}</button>`).join(' ');
+  $('#cats').querySelectorAll('.chip').forEach(b=>b.onclick=()=>{cat=b.dataset.c;renderShop()});
+  const q=$('#q').value.toLowerCase();
+  const list=products.filter(p=>(cat==='All'||p.category===cat)&&p.name.toLowerCase().includes(q));
+  $('#count').textContent=list.length+(list.length===1?' product':' products');
+  $('#grid').innerHTML=list.length?list.map(p=>`<article class="card"><div class="pic">${p.image?`<img src="${esc(p.image)}" alt="${esc(p.name)}" loading="lazy">`:'<div class="ph">🎆</div>'}<span class="tag">${esc(p.category)}</span>${p.stock<1?'<div class="sold">Sold out</div>':''}</div>
+    <div class="in"><h3>${esc(p.name)}</h3><p>${esc(p.description)}</p>
+    <div class="row"><span class="price">${money(p.price)}</span>${p.stock>0&&p.stock<=10?`<span class="low">Only ${p.stock} left</span>`:''}</div>
+    <button class="btn" ${p.stock<1?'disabled':''} onclick="addCart(${p.id})">${p.stock<1?'Sold out':'Add to cart'}</button></div></article>`).join(''):(products.length?'<p>No crackers match your search. Try a different word or category.</p>':(user&&user.role==='admin'?'<p>No crackers are in the shop yet. Open <b>Admin panel</b>, tick <b>Show in shop</b> for the crackers you sell, enter stock and press Save.</p>':'<p>New stock is on its way. The shop owner has not added any crackers yet.</p>'))}
+$('#q').oninput=renderShop;
+
+// ---------- cart ----------
+function saveCart(){localStorage.setItem('cart',JSON.stringify(cart));renderNav()}
+function addCart(id){const p=products.find(x=>x.id===id),c=cart.find(x=>x.id===id);
+  if((c?c.qty:0)>=p.stock)return toast('No more stock available');
+  c?c.qty++:cart.push({id,qty:1});saveCart();toast('Added to cart')}
+function chg(id,d){const c=cart.find(x=>x.id===id),p=products.find(x=>x.id===id);c.qty+=d;
+  if(c.qty>p.stock)c.qty=p.stock;if(c.qty<1)cart=cart.filter(x=>x.id!==id);saveCart();renderCart()}
+let coupon='';
+async function loadQuote(){
+  try{const q=await api('/api/quote',{method:'POST',body:{cart,coupon}});
+    $('#quote').innerHTML=`<table><tr><td>Subtotal</td><td>${money(q.subtotal)}</td></tr>${q.discount?`<tr><td>Coupon ${esc(q.coupon)}</td><td>−${money(q.discount)}</td></tr>`:''}<tr><td>Delivery</td><td>${q.delivery?money(q.delivery):'Free'}</td></tr><tr><th>Total</th><th>${money(q.total)}</th></tr></table>`;$('#payBtn').disabled=false}
+  catch(e){if(/coupon/i.test(e.message)){coupon='';toast(e.message);return loadQuote()}$('#quote').innerHTML=`<p class="low">${esc(e.message)}</p>`;$('#payBtn').disabled=true}}
+function renderCart(){
+  cart=cart.filter(c=>products.some(p=>p.id===c.id));
+  $('#cart').innerHTML=`<div class="row"><h2>Your cart</h2><button class="btn ghost" onclick="$('#cart').classList.remove('open')">Close</button></div>
+  ${cart.length?cart.map(c=>{const p=products.find(x=>x.id===c.id);return `<div class="ci"><div><b>${esc(p.name)}</b><br>${money(p.price)}</div>
+   <div class="qty"><button onclick="chg(${p.id},-1)" aria-label="Less">−</button> ${c.qty} <button onclick="chg(${p.id},1)" aria-label="More">+</button></div></div>`}).join('')
+   :'<p>Your cart is empty. Add some crackers to get started.</p>'}
+  ${cart.length?`<div style="display:flex;gap:8px"><input id="coupon" placeholder="Coupon code" value="${esc(coupon)}" style="margin:0"><button class="btn ghost" onclick="coupon=$('#coupon').value;loadQuote()">Apply</button></div><div id="quote"></div>
+  <textarea id="addr" rows="3" placeholder="Full delivery address with pincode"></textarea><input id="phone" placeholder="10-digit mobile number" inputmode="numeric" maxlength="10">
+  <button class="btn red" id="payBtn" onclick="checkout()">Pay securely</button>`:''}`;if(cart.length)loadQuote()}
+async function checkout(){
+  if(!user){authDialog('login');return toast('Log in to place your order')}
+  const b=$('#payBtn');b.disabled=true;
+  try{
+    const o=await api('/api/checkout',{method:'POST',body:{cart,coupon,address:$('#addr').value,phone:$('#phone').value}});
+    new Razorpay({key:o.key,amount:o.amount,currency:'INR',order_id:o.rzpOrder,name:'Sivakasi Sparks',
+      handler:async r=>{try{await api('/api/verify',{method:'POST',body:r});cart=[];coupon='';saveCart();$('#cart').classList.remove('open');toast('Payment received. Order confirmed!');loadProducts()}catch(e){toast(e.message)}},
+      modal:{ondismiss:()=>{b.disabled=false;loadProducts()}}}).open();
+  }catch(e){toast(e.message);b.disabled=false}}
+
+// ---------- auth ----------
+function authDialog(mode){
+  $('#authTitle').textContent=mode==='login'?'Log in':'Create account';
+  $('#authForm').innerHTML=`${mode==='register'?'<input name="name" placeholder="Your name" required>':''}
+  <input name="email" type="email" placeholder="Email" required><input name="password" type="password" placeholder="Password (8+ characters)" required minlength="8">
+  <div class="row"><button class="btn">${mode==='login'?'Log in':'Sign up'}</button>
+  <a href="#" id="sw">${mode==='login'?'New here? Create account':'Have an account? Log in'}</a></div>${mode==='login'?'<p><a href="#" id="fg">Forgot password?</a></p>':''}`;
+  $('#sw').onclick=e=>{e.preventDefault();authDialog(mode==='login'?'register':'login')};
+  if($('#fg'))$('#fg').onclick=e=>{e.preventDefault();forgotDialog()};
+  $('#authForm').onsubmit=async e=>{e.preventDefault();
+    try{user=await api('/api/'+mode,{method:'POST',body:Object.fromEntries(new FormData(e.target))});$('#authDlg').close();renderNav();renderShop();toast('Welcome, '+user.name)}catch(er){toast(er.message)}};
+  $('#authDlg').showModal()}
+
+function forgotDialog(){$('#authTitle').textContent='Reset password';
+  $('#authForm').innerHTML='<input name="email" type="email" placeholder="Your account email" required><button class="btn">Email me a reset link</button>';
+  $('#authForm').onsubmit=async e=>{e.preventDefault();await api('/api/forgot',{method:'POST',body:Object.fromEntries(new FormData(e.target))}).catch(()=>{});$('#authDlg').close();toast('If that email has an account, a reset link is on its way')}}
+function resetDialog(token){$('#authTitle').textContent='Choose a new password';
+  $('#authForm').innerHTML='<input name="password" type="password" minlength="8" placeholder="New password (8+ characters)" required><button class="btn">Save password</button>';
+  $('#authForm').onsubmit=async e=>{e.preventDefault();try{await api('/api/reset',{method:'POST',body:{token,password:e.target.password.value}});history.replaceState(null,'','/');toast('Password updated. Log in now.');authDialog('login')}catch(er){toast(er.message)}};$('#authDlg').showModal()}
+async function myOrders(){const os=await api('/api/my-orders');
+  $('#ordDlg').innerHTML=`<h2>My orders</h2>${os.length?`<table>${os.map(o=>`<tr><td>#${o.id}</td><td>${money(o.total)}</td><td>${esc(o.status)}</td><td>${['paid','shipped','delivered'].includes(o.status)?`<a href="/api/invoice/${o.id}" target="_blank">Invoice</a>`:''}</td></tr>`).join('')}</table>`:'<p>You have not placed any orders yet.</p>'}<p><button class="btn ghost" onclick="$('#ordDlg').close()">Close</button></p>`;$('#ordDlg').showModal()}
+async function delC(c){await api('/api/admin/coupons/'+c,{method:'DELETE'});adminRender('coupons')}
+
+let invData=[];
+async function saveInv(quiet){const rs=[...document.querySelectorAll('#inv tr[data-id]')];if(!rs.length)return;
+  try{await api('/api/admin/inventory',{method:'PUT',body:{items:rs.map(r=>({id:r.dataset.id,price:r.querySelector('.pr').value,stock:r.querySelector('.st').value,active:r.querySelector('.ac').checked}))}});if(!quiet)toast('Saved. The shop is updated.')}catch(e){toast(e.message)}}
+async function editInv(id){await saveInv(true);const p=invData.find(x=>x.id===id);
+  $('#editDlg').innerHTML=`<h2>Edit cracker</h2><form id="ef" style="margin-top:12px"><input name="name" value="${esc(p.name)}" required><textarea name="description" rows="4">${esc(p.description)}</textarea><input name="category" value="${esc(p.category)}">
+  <div class="row"><input name="price" type="number" step="0.01" min="1" value="${p.price/100}" required><input name="stock" type="number" min="0" value="${p.stock}" required></div>
+  ${p.image?`<img src="${esc(p.image)}" alt="" style="width:100%;border-radius:12px;margin-bottom:10px">`:''}<label>Change picture (JPG, PNG or WebP)<input name="image" type="file" accept="image/jpeg,image/png,image/webp"></label>
+  <div class="row"><button class="btn">Save changes</button><button type="button" class="btn ghost" onclick="$('#editDlg').close()">Cancel</button></div></form>`;
+  $('#ef').onsubmit=async e=>{e.preventDefault();const fd=new FormData(e.target);if(!fd.get('image').size)fd.delete('image');
+    try{await api('/api/admin/products/'+id,{method:'PUT',body:fd});$('#editDlg').close();toast('Saved');adminRender('inventory')}catch(er){toast(er.message)}};
+  $('#editDlg').showModal()}
+
+// ---------- admin ----------
+function showShop(){$('#adminView').classList.add('hide');$('#shop').classList.remove('hide');$('#hero').classList.remove('hide')}
+async function toggleAdmin(){
+  if(!$('#adminView').classList.contains('hide'))return showShop();
+  $('#shop').classList.add('hide');$('#hero').classList.add('hide');$('#adminView').classList.remove('hide');adminRender()}
+async function adminRender(tab='inventory'){
+  const v=$('#adminView');
+  v.innerHTML=`<div class="tabs"><button class="chip ${tab==='inventory'?'on':''}" onclick="adminRender('inventory')">Stock and prices</button><button class="chip ${tab==='products'?'on':''}" onclick="adminRender('products')">Add or edit product</button><button class="chip ${tab==='orders'?'on':''}" onclick="adminRender('orders')">Orders</button><button class="chip ${tab==='coupons'?'on':''}" onclick="adminRender('coupons')">Coupons</button><button class="chip" onclick="toggleAdmin()">Back to shop</button></div><div id="adminBody"></div>`;
+  if(tab==='orders'){
+    const os=await api('/api/admin/orders');
+    $('#adminBody').innerHTML=os.length?`<div style="overflow:auto"><table><tr><th>#</th><th>Customer</th><th>Items</th><th>Total</th><th>Ship to</th><th>Status</th></tr>${os.map(o=>`<tr><td>${o.id}</td><td>${esc(o.customer)}<br>${esc(o.email)}<br>${esc(o.phone)}</td>
+    <td>${o.items.map(i=>esc(i.name)+' × '+i.qty).join('<br>')}</td><td>${money(o.total)}</td><td>${esc(o.address)}</td>
+    <td><select onchange="setStatus(${o.id},this.value)">${['pending','paid','shipped','delivered','cancelled'].map(s=>`<option ${s===o.status?'selected':''}>${s}</option>`).join('')}</select></td></tr>`).join('')}</table></div>`:'<p>No orders yet. They will appear here once customers pay.</p>';return}
+  if(tab==='inventory'){invData=await api('/api/admin/products');const cats=[...new Set(invData.map(p=>p.category))];
+    $('#adminBody').innerHTML=`<p>All ${invData.length} crackers are already here. Tick <b>Show in shop</b> for the ones you sell, enter your stock and price, then press <b>Save all changes</b>. Use <b>Edit</b> to change a name, description or picture.</p>
+    <div class="bar"><input id="iq" placeholder="Search crackers"><select id="icat"><option value="">All types</option>${cats.map(c=>`<option>${esc(c)}</option>`).join('')}</select><select id="ist"><option value="">All</option><option value="in">In shop</option><option value="out">Not in shop</option></select></div>
+    <div class="bar"><button class="btn ghost" id="tickAll">Tick all shown</button><input id="bulk" class="num" style="flex:none" type="number" min="0" placeholder="Stock"><button class="btn ghost" id="applyBulk">Set stock for shown</button><button class="btn ghost" id="hideZero">Hide all with 0 stock</button><button class="btn" id="saveInv">Save all changes</button></div>
+    <div style="overflow:auto"><table id="inv"><tr><th></th><th>Cracker</th><th>Price ₹</th><th>Stock</th><th>Show in shop</th><th></th></tr>${invData.map(p=>`<tr data-id="${p.id}" data-c="${esc(p.category)}" data-n="${esc(p.name.toLowerCase())}"><td>${p.image?`<img src="${esc(p.image)}" width="52" height="39" alt="" style="border-radius:6px;object-fit:cover">`:''}</td><td>${esc(p.name)}<br><small>${esc(p.category)}</small></td><td><input type="number" class="num pr" min="1" step="0.01" value="${p.price/100}"></td><td><input type="number" class="num st" min="0" value="${p.stock}"></td><td><input type="checkbox" class="ac" ${p.active?'checked':''}></td><td><button class="btn ghost" onclick="editInv(${p.id})">Edit</button></td></tr>`).join('')}</table></div>`;
+    const rows=()=>[...document.querySelectorAll('#inv tr[data-id]')],shown=()=>rows().filter(r=>r.style.display!=='none');
+    const apply=()=>{const q=$('#iq').value.toLowerCase(),c=$('#icat').value,s=$('#ist').value;rows().forEach(r=>{const on=r.querySelector('.ac').checked;r.style.display=(r.dataset.n.includes(q)&&(!c||r.dataset.c===c)&&(!s||(s==='in')===on))?'':'none'})};
+    ['iq','icat','ist'].forEach(i=>$('#'+i).oninput=apply);
+    $('#tickAll').onclick=()=>shown().forEach(r=>r.querySelector('.ac').checked=true);
+    $('#applyBulk').onclick=()=>{const v=$('#bulk').value;if(v==='')return toast('Type a stock number first');shown().forEach(r=>r.querySelector('.st').value=v)};
+    $('#hideZero').onclick=()=>rows().forEach(r=>{if(+r.querySelector('.st').value===0)r.querySelector('.ac').checked=false});
+    $('#saveInv').onclick=()=>saveInv();return}
+  if(tab==='coupons'){const cs=await api('/api/admin/coupons');
+    $('#adminBody').innerHTML=`<form id="cf" style="max-width:340px"><h2>New coupon</h2><input name="code" placeholder="Code e.g. DIWALI10" required><input name="percent" type="number" min="1" max="90" placeholder="Discount %" required><input name="min" type="number" min="0" placeholder="Minimum order in ₹ (optional)"><button class="btn">Save coupon</button></form><table>${cs.map(c=>`<tr><td>${esc(c.code)}</td><td>${c.percent}% off</td><td>min ${money(c.min_total)}</td><td><button class="btn ghost" onclick="delC('${esc(c.code)}')">Delete</button></td></tr>`).join('')}</table>`;
+    $('#cf').onsubmit=async e=>{e.preventDefault();try{await api('/api/admin/coupons',{method:'POST',body:Object.fromEntries(new FormData(e.target))});toast('Coupon saved');adminRender('coupons')}catch(er){toast(er.message)}};return}
+  await loadProducts();
+  $('#adminBody').innerHTML=`<div class="admin"><form id="pf"><h2 id="pfT">Add product</h2><input type="hidden" name="id">
+  <input name="name" placeholder="Product name" required><textarea name="description" rows="3" placeholder="Description"></textarea>
+  <input name="price" type="number" step="0.01" min="1" placeholder="Price in ₹" required><input name="stock" type="number" min="0" placeholder="Quantity in stock" required>
+  <input name="category" placeholder="Category (e.g. Sparklers)"><input name="image" type="file" accept="image/jpeg,image/png,image/webp">
+  <button class="btn">Save product</button> <button type="button" class="btn ghost" onclick="adminRender('products')">Clear</button></form>
+  <div style="overflow:auto"><table><tr><th>Product</th><th>Price</th><th>Stock</th><th></th></tr>${products.map(p=>`<tr><td>${esc(p.name)}</td><td>${money(p.price)}</td><td>${p.stock}</td>
+  <td><button class="btn ghost" onclick="editP(${p.id})">Edit</button> <button class="btn ghost" onclick="delP(${p.id})">Delete</button></td></tr>`).join('')}</table></div></div>`;
+  $('#pf').onsubmit=async e=>{e.preventDefault();const fd=new FormData(e.target),id=fd.get('id');fd.delete('id');if(!fd.get('image').size)fd.delete('image');
+    try{await api('/api/admin/products'+(id?'/'+id:''),{method:id?'PUT':'POST',body:fd});toast('Saved');adminRender('products')}catch(er){toast(er.message)}}}
+function editP(id){const p=products.find(x=>x.id===id),f=$('#pf');$('#pfT').textContent='Edit product';
+  f.id.value=p.id;f.name.value=p.name;f.description.value=p.description||'';f.price.value=p.price/100;f.stock.value=p.stock;f.category.value=p.category;f.scrollIntoView()}
+async function delP(id){if(confirm('Remove this product from the store?')){await api('/api/admin/products/'+id,{method:'DELETE'});adminRender('products')}}
+async function setStatus(id,status){try{await api('/api/admin/orders/'+id,{method:'PUT',body:{status}});toast('Order updated')}catch(e){toast(e.message)}}
+
+// ---------- fireworks (click the hero) ----------
+(()=>{const c=$('#fx'),x=c.getContext('2d');let P=[];const rs=()=>{c.width=c.offsetWidth;c.height=c.offsetHeight};rs();addEventListener('resize',rs);
+  const reduce=matchMedia('(prefers-reduced-motion:reduce)').matches,H=[330,265,20,150,45];
+  function boom(px,py){const h=H[Math.random()*H.length|0];for(let i=0;i<60;i++){const a=Math.PI*2*i/60,s=Math.random()*4+1.5;P.push({x:px,y:py,vx:Math.cos(a)*s,vy:Math.sin(a)*s,l:1,h})}}
+  $('#hero').addEventListener('click',e=>{const r=c.getBoundingClientRect();boom(e.clientX-r.left,e.clientY-r.top)});
+  if(!reduce){setInterval(()=>boom(Math.random()*c.width,Math.random()*c.height*.6),1700);setTimeout(()=>boom(c.width/2,c.height*.35),400)}
+  (function t(){x.clearRect(0,0,c.width,c.height);P=P.filter(p=>p.l>0);x.lineWidth=3;x.lineCap='round';
+    P.forEach(p=>{x.strokeStyle=`hsla(${p.h},85%,45%,${p.l})`;x.beginPath();x.moveTo(p.x-p.vx*2,p.y-p.vy*2);p.x+=p.vx;p.y+=p.vy;p.vy+=.05;p.vx*=.985;p.l-=.014;x.lineTo(p.x,p.y);x.stroke()});requestAnimationFrame(t)})()})();
+
+// ---------- footer ----------
+function renderFooter(s){
+  const tel=s.phone.replace(/[^\d+]/g,''), wa=s.whatsapp.replace(/\D/g,'');
+  $('#foot').innerHTML=`<div class="fgrid"><div><h3>${esc(s.name)}</h3><p>Licensed fireworks, packed safely and delivered to your door.</p>${s.license?`<p>Licence no: ${esc(s.license)}</p>`:''}</div>
+  <div><h3>Visit us</h3>${s.address?`<p><a href="https://www.google.com/maps/search/?api=1&amp;query=${encodeURIComponent(s.address)}" target="_blank" rel="noopener">${esc(s.address)}</a></p>`:''}${s.hours?`<p>${esc(s.hours)}</p>`:''}</div>
+  <div><h3>Contact us</h3>${s.phone?`<p><a href="tel:${esc(tel)}">${esc(s.phone)}</a></p>`:''}${wa?`<p><a href="https://wa.me/${wa}" target="_blank" rel="noopener">Chat on WhatsApp</a></p>`:''}${s.email?`<p><a href="mailto:${esc(s.email)}">${esc(s.email)}</a></p>`:''}</div></div>
+  <p class="fnote">Fireworks are hazardous. Buyers must be 18 or older and follow local safety rules. Use outdoors with adult supervision.</p><p class="fnote">© ${new Date().getFullYear()} ${esc(s.name)}</p>`}
+api('/api/shop').then(renderFooter).catch(()=>document.body.insertAdjacentHTML('afterbegin','<div class="warn">The store server is not reachable from this address. Run <b>npm start</b>, then open <b>http://localhost:3000</b> (do not use Live Server or open the file directly).</div>'));
+
+// ---------- start ----------
+if(location.hash.startsWith('#reset='))resetDialog(location.hash.slice(7));
+api('/api/me').then(u=>user=u).catch(()=>{}).finally(()=>{renderNav();loadProducts()});
+</script>
+<script src="https://checkout.razorpay.com/v1/checkout.js" async></script>
+</body></html>

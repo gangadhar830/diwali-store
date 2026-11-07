@@ -1,0 +1,54 @@
+// Catalogue of 102 crackers. The store loads it automatically on first start (hidden from customers until the admin turns them on).
+// Manual use:  node seed.js   (or  node seed.js --reset  to start the catalogue over)
+const { DatabaseSync } = require('node:sqlite'), path = require('path'), fs = require('fs');
+
+const B = (x, y, r, c, n = 12) => { let s = ''; for (let i = 0; i < n; i++) { const a = i * 2 * Math.PI / n;
+  s += `<line x1="${x + Math.cos(a) * r * .35 | 0}" y1="${y + Math.sin(a) * r * .35 | 0}" x2="${x + Math.cos(a) * r | 0}" y2="${y + Math.sin(a) * r | 0}" stroke="${c}" stroke-width="4" stroke-linecap="round"/>`; }
+  return s + `<circle cx="${x}" cy="${y}" r="${r * .16 | 0}" fill="${c}"/>`; };
+const star = (cx, cy, R, r, n, f) => { const p = []; for (let i = 0; i < n * 2; i++) { const a = i * Math.PI / n, q = i % 2 ? r : R; p.push((cx + Math.cos(a) * q | 0) + ',' + (cy + Math.sin(a) * q | 0)); } return `<polygon points="${p.join(' ')}" fill="${f}"/>`; };
+const D = {
+  s: (a, b) => [[105, 260, 190, 95], [175, 265, 255, 70], [245, 260, 320, 100]].map(([x, y, u, v], j) => `<line x1="${x}" y1="${y}" x2="${u}" y2="${v}" stroke="#6b4b3a" stroke-width="6" stroke-linecap="round"/>${B(u, v, 52, j % 2 ? b : a)}`).join(''),
+  f: (a, b) => `<path d="M150 270L168 195H232L250 270Z" fill="${b}"/><rect x="160" y="185" width="80" height="16" rx="5" fill="#6b4b3a"/>` + [-4, -3, -2, -1, 0, 1, 2, 3, 4].map(i => `<line x1="200" y1="185" x2="${200 + i * 30}" y2="${70 + Math.abs(i) * 14}" stroke="${i % 2 ? a : b}" stroke-width="4" stroke-linecap="round"/><circle cx="${200 + i * 30}" cy="${70 + Math.abs(i) * 14}" r="6" fill="${i % 2 ? b : a}"/>`).join(''),
+  w: (a, b) => `<circle cx="200" cy="150" r="82" fill="#fff" stroke="${b}" stroke-width="6"/>` + [0, 1, 2, 3, 4, 5, 6, 7].map(i => `<path transform="rotate(${i * 45} 200 150)" d="M200 150Q255 105 285 150" fill="none" stroke="${i % 2 ? a : b}" stroke-width="9" stroke-linecap="round"/>`).join('') + `<circle cx="200" cy="150" r="12" fill="${a}"/>`,
+  r: (a, b) => `<g transform="rotate(35 200 150)"><line x1="200" y1="185" x2="200" y2="300" stroke="#6b4b3a" stroke-width="6"/><polygon points="185,190 160,220 185,170" fill="${b}"/><polygon points="215,190 240,220 215,170" fill="${b}"/><rect x="182" y="80" width="36" height="112" rx="6" fill="${a}"/><rect x="182" y="120" width="36" height="14" fill="#fff" opacity=".7"/><polygon points="182,82 218,82 200,40" fill="${b}"/><polygon points="188,192 212,192 200,240" fill="#ff9800"/></g>` + B(315, 70, 46, b),
+  b: (a, b) => star(200, 150, 125, 75, 10, b) + [[140, 150, -12], [200, 150, 0], [260, 150, 12]].map(([x, y, r]) => `<g transform="rotate(${r} ${x} ${y})"><rect x="${x - 18}" y="${y - 48}" width="36" height="96" rx="6" fill="${a}"/><rect x="${x - 18}" y="${y - 18}" width="36" height="14" fill="#fff" opacity=".8"/><line x1="${x}" y1="${y - 48}" x2="${x + 6}" y2="${y - 70}" stroke="#333" stroke-width="3"/></g>`).join(''),
+  a: (a, b) => `<rect x="115" y="170" width="170" height="100" rx="8" fill="${a}"/><rect x="115" y="205" width="170" height="16" fill="#fff" opacity=".7"/>` + [0, 1, 2, 3, 4].map(i => `<rect x="${128 + i * 32}" y="150" width="22" height="24" rx="3" fill="${b}"/>`).join('') + B(150, 80, 50, a) + B(250, 70, 56, b, 14) + B(200, 40, 34, a, 10),
+  k: (a, b) => [[110, 200, 34], [200, 120, 26], [290, 200, 38], [150, 90, 18], [255, 95, 20], [200, 225, 22]].map(([x, y, r], i) => `<circle cx="${x}" cy="${y}" r="${r}" fill="${i % 2 ? a : b}"/>`).join('') + star(330, 60, 32, 14, 6, a) + star(70, 70, 28, 12, 6, b),
+  m: (a, b) => [[130, 170, 52], [200, 130, 64], [270, 170, 52], [170, 215, 46], [240, 215, 46]].map(([x, y, r], i) => `<circle cx="${x}" cy="${y}" r="${r}" fill="${i % 2 ? a : b}" opacity=".85"/>`).join('') + `<rect x="180" y="240" width="40" height="40" rx="6" fill="#6b4b3a"/>`,
+  g: (a, b) => `<rect x="105" y="150" width="190" height="115" rx="8" fill="${a}"/><rect x="95" y="128" width="210" height="34" rx="8" fill="${b}"/><rect x="188" y="128" width="24" height="137" fill="#fff" opacity=".85"/><ellipse cx="170" cy="112" rx="30" ry="18" fill="none" stroke="${b}" stroke-width="9"/><ellipse cx="230" cy="112" rx="30" ry="18" fill="none" stroke="${b}" stroke-width="9"/>` + B(330, 70, 36, a, 10) + B(70, 80, 30, b, 10),
+};
+const P = [['#e53935', '#ffb300'], ['#8e24aa', '#ff7043'], ['#1e88e5', '#e91e63'], ['#43a047', '#fb8c00'], ['#d81b60', '#fdd835'], ['#00897b', '#f4511e'], ['#5e35b1', '#ffa000'], ['#fb8c00', '#c2185b'], ['#3949ab', '#ec407a'], ['#6d4c41', '#fbc02d']];
+const art = (k, i, bg) => `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300"><rect width="400" height="300" fill="${bg}"/><circle cx="335" cy="45" r="95" fill="#fff" opacity=".55"/><ellipse cx="200" cy="280" rx="115" ry="9" fill="#2a1650" opacity=".09"/><g transform="translate(200 150) scale(${(.85 + (i % 4) * .07).toFixed(2)}) translate(-200 -150)">${D[k](...P[i % P.length])}</g></svg>`;
+
+const CAT = [
+ ['Sparklers', 's', '#fff4d6', 'Hand-held sparklers. Hold at arm\'s length and drop the burnt stick into a bucket of water.', 'Color Sparklers 7 cm (Box of 10)|25;Color Sparklers 10 cm (Box of 10)|40;Color Sparklers 15 cm (Box of 10)|60;Color Sparklers 30 cm (Box of 10)|110;Color Sparklers 50 cm (Box of 5)|150;Electric Sparklers 15 cm (Box of 10)|70;Electric Sparklers 30 cm (Box of 10)|120;Golden Sparklers 30 cm (Box of 10)|130;Silver Star Sparklers 30 cm (Box of 10)|130;Rainbow Sparklers 30 cm (Box of 10)|140;Mega Sparklers 90 cm (Box of 3)|180;Crackling Sparklers 30 cm (Box of 10)|150'],
+ ['Fountains', 'f', '#ffe9e0', 'Ground fountain with a tall shower of sparks. Place on flat ground, light the fuse and step back.', 'Flower Pots Small (Box of 10)|120;Flower Pots Big (Box of 5)|180;Flower Pots Deluxe (Box of 5)|240;Flower Pots Super Deluxe (Box of 3)|300;Peacock Dance Fountain|260;Golden Fountain|220;Silver Rain Fountain|230;Colour Changing Fountain|280;Crackling Fountain|250;Twinkling Star Fountain|210;Volcano Fountain|320;Tree of Gold Fountain|350;Magic Fountain Mega|450;Dancing Fountain|290;Fancy Cone Fountain|240'],
+ ['Spinners', 'w', '#e6f4ff', 'Spinning wheel with bright sparks. Use on smooth, open ground away from people.', 'Ground Chakkar Small (Box of 25)|90;Ground Chakkar Big (Box of 10)|120;Ground Chakkar Deluxe (Box of 10)|160;Disco Wheel (Box of 5)|140;Whirlwind Spinner (Box of 5)|150;Spinning Top Colour (Box of 5)|130;Zig Zag Crackers (Box of 10)|110;Butterfly Spinner (Box of 5)|170'],
+ ['Rockets', 'r', '#e9f7ee', 'Rocket with a launch stick. Use a bottle or stand, point at the open sky and light from arm\'s length.', 'Baby Rocket (Box of 10)|90;Bottle Rocket (Box of 10)|120;Whistling Rocket (Box of 5)|150;Colour Rocket (Box of 5)|180;Lunik Rocket (Box of 5)|200;Parachute Rocket (Box of 2)|160;Sky Shot Rocket (Box of 3)|220;Double Sound Rocket (Box of 5)|210;Rainbow Rocket (Box of 3)|240;Moon Rocket Mega (Box of 2)|280;Fire Arrow Rocket (Box of 5)|190'],
+ ['Sound Crackers', 'b', '#ffe4e8', 'Loud sound cracker. Use outdoors, away from animals, children and anything that burns.', 'Kuruvi Crackers (Box of 100)|40;Lakshmi Crackers (Box of 10)|80;Red Bijili (100 wall)|70;Red Bijili (200 wall)|130;Red Bijili (1000 wall)|600;Green Bijili (100 wall)|75;Sutli Bomb (Box of 10)|60;Atom Bomb (Box of 10)|90;Classic Bomb (Box of 10)|120;Hydrogen Bomb (Box of 5)|150;Paper Bomb (Box of 10)|100;Gold Bomb (Box of 5)|140;Giant Bomb (Box of 5)|180;Dhoom Dhamaka (Box of 5)|200'],
+ ['Aerial', 'a', '#efe9ff', 'Multi-shot cake with colourful aerial bursts. Place on firm flat ground, light once and move back.', '5 Shot Mini Cake|180;7 Shot Rainbow Cake|250;12 Shot Colour Cake|420;15 Shot Crackling Cake|520;25 Shot Fancy Aerial|850;30 Shot Thunder Storm|950;60 Shot Sky Fest|1650;100 Shot Mega Cake|2600;120 Shot Super Cake|3100;240 Shot Grand Finale|5500;Mini Fireworks Cake (Box of 3)|300;Colour Pearls Aerial 10 Shot|380;Silver Fish Aerial 20 Shot|700;Peony Burst Aerial 36 Shot|1300'],
+ ['Kids Fun', 'k', '#e6fbf7', 'Light, small fun item for children. Always use with an adult nearby.', 'Pop Pop (Box of 50)|40;Snake Tablets (Box of 10)|30;Magic Pencil (Box of 10)|60;Colour Matches (Box of 10)|50;Star Pencil (Box of 10)|70;Paper Caps Roll (Pack of 10)|40;Twinkle Rangoli Colours (Box of 5)|90;Ladies Finger Sparkle (Box of 10)|80'],
+ ['Colour Smoke', 'm', '#eef3ff', 'Coloured smoke for photos and celebrations. Use outdoors and keep the smoke away from the face.', 'Colour Smoke Ball Pink (Box of 5)|100;Colour Smoke Ball Blue (Box of 5)|100;Colour Smoke Ball Orange (Box of 5)|100;Colour Smoke Ball Green (Box of 5)|100;White Smoke Bomb (Box of 5)|90;Rainbow Smoke Pack (Box of 10)|180'],
+ ['Gift Boxes', 'g', '#fff0f5', 'Assorted pack of fountains, spinners, sparklers and more, beautifully boxed.', 'Kids Safe Pack (12 items)|350;Kids Fun Pack (20 items)|550;Family Pack (30 items)|1250;Family Pack (50 items)|1800;Family Pack (75 items)|2600;Family Pack (100 items)|3400;Premium Box (120 items)|4200;Sparkler Special (25 items)|650;Fountain Special (15 items)|1100;Rocket Special (12 items)|1300;Eco Green Pack (20 items)|900;Mega Combo (150 items)|5200;Deluxe Combo (200 items)|6800;Diwali Special Combo (40 items)|1600'],
+];
+
+function seedCatalogue(db, reset = false) {
+  db.exec(`CREATE TABLE IF NOT EXISTS products(id INTEGER PRIMARY KEY, name TEXT NOT NULL, description TEXT, price INTEGER NOT NULL,
+    stock INTEGER NOT NULL DEFAULT 0, category TEXT, image TEXT, active INTEGER DEFAULT 1, created TEXT DEFAULT CURRENT_TIMESTAMP)`);
+  db.exec("DELETE FROM products WHERE image LIKE '/uploads/seed-%'");                       // old 10 test items
+  if (db.prepare("SELECT COUNT(*) n FROM products WHERE image LIKE '/uploads/cat-%'").get().n && !reset) return 0;
+  db.exec("DELETE FROM products WHERE image LIKE '/uploads/cat-%'"); fs.mkdirSync(path.join(__dirname, 'uploads'), { recursive: true });
+  const ins = db.prepare('INSERT INTO products(name,description,price,stock,category,image,active) VALUES(?,?,?,0,?,?,0)'); let n = 0;
+  db.exec('BEGIN');
+  for (const [cat, kind, bg, desc, list] of CAT) for (const it of list.split(';')) {
+    const [name, price] = it.split('|'), f = `cat-${String(++n).padStart(3, '0')}.svg`;
+    fs.writeFileSync(path.join(__dirname, 'uploads', f), art(kind, n, bg)); ins.run(name, desc, +price * 100, cat, '/uploads/' + f);
+  }
+  db.exec('COMMIT'); return n;
+}
+module.exports = { seedCatalogue };
+if (require.main === module) {
+  const db = new DatabaseSync(path.join(__dirname, 'shop.db')); db.exec('PRAGMA journal_mode = WAL');
+  const n = seedCatalogue(db, process.argv.includes('--reset'));
+  console.log(n ? `Added ${n} crackers. Open Admin panel > Stock and prices to switch them on.` : 'Catalogue already added (your stock and prices are kept). Use "node seed.js --reset" to start over.');
+}
